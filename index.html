@@ -1,0 +1,357 @@
+<style>
+  .greeting {
+    position: fixed;
+    color: white;
+    font-family: "Gill Sans";
+    font-size: 45px;
+    transform: translate(0px, -130px);
+  }
+
+  body {
+    background: teal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  #mouth {
+    display: inline-block;
+  }
+  
+  .face {
+    position: fixed;
+    color: teal;
+    font-size: 70px;
+    transition: all 1s;
+  }
+
+  .face:hover {
+    transform: rotate(10deg)
+  }
+
+  .circle {
+    position: fixed;
+    background-color: white;
+    height: 190px;
+    width: 190px;
+    border-radius: 50%;
+    z-index: -2
+  }
+
+  .button1 {
+    position: fixed;
+    color: teal;
+    text-align: center;
+    background-color: white;
+    font-family: "Gill Sans";
+    font-size: 30px;
+    height: 50px;
+    width: 350px;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0px, 150px);
+  }
+
+  .button2 {
+    position: fixed;
+    color: teal;
+    text-align: center;
+    background-color: white;
+    font-family: "Gill Sans";
+    font-size: 30px;
+    height: 50px;
+    width: 350px;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0px, 210px);
+  }
+</style>
+
+<div class="greeting">
+  <span id="greeting">Hello, IBM Accelerate!</span>
+</div>
+
+<div class="face">
+  <span id="left-eye">●</span>
+  <span id="mouth">⏝</span>
+  <span id="right-eye">●</span>
+</div>
+
+<div class="circle">
+</div>
+
+<div class="button1">
+  <span id="hi">Hi</span>
+</div>
+
+<div class="button2">
+  <span id="bye">Bye</span>
+</div>
+
+
+
+
+
+<script>
+  
+  function browserInfo () {
+
+    const ua = navigator.userAgent
+    let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
+    let tem
+    if (/trident/i.test(M[1])) {
+      tem = /\brv[ :]+(\d+)/g.exec(ua) || []
+      return 'IE ' + (tem[1] || '')
+    }
+    if (M[1] === 'Chrome') {
+      tem = ua.match(/\b(OPR|Edge)\/(\d+)/)
+      if (tem !== null) return tem.slice(1).join(' ').replace('OPR', 'Opera')
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?']
+    if ((tem = ua.match(/version\/(\d+)/i)) !== null) M.splice(1, 1, tem[1])
+    // check for Brave browser
+    if (window.navigator.brave &&
+        window.navigator.brave.isBrave.name === 'isBrave') {
+      M[0] = 'Brave'; M[1] = null
+    }
+    return { name: M[0], version: M[1] }
+  }
+  
+  const lefteye = document.querySelector('#left-eye')
+  const mouth = document.querySelector('#mouth')
+  const righteye = document.querySelector('#right-eye')
+  const button1 = document.querySelector('#hi')
+  const button2 = document.querySelector('#bye')
+  const greeting = document.querySelector('#greeting')
+  const body = document.querySelector('body')
+  console.log(body.style.background)
+
+
+  function leye() {
+    lefteye.textContent = ">"
+    lefteye.style.fontSize = "69px"
+    setTimeout(() => {
+      lefteye.textContent = "●"
+      lefteye.style.fontSize = "70px"
+    }, 1000)
+  }
+  lefteye.addEventListener('click', leye)
+
+  function reye() {
+    righteye.textContent = "<"
+    righteye.style.fontSize = "69px"
+    setTimeout(() => {
+      righteye.textContent = "●"
+      righteye.style.fontSize = "70px"
+    }, 1000)
+  }
+  righteye.addEventListener('click', reye)
+
+  function UpdateMouth(m) {
+    console.log(browserInfo().name)
+    mouth.textContent = m
+    if (m === "⏝") {
+     mouth.style.fontSize = "70px" 
+    } else if (m === "_") {
+     mouth.style.fontSize = "69px"
+    }
+    if (m === "⏝" && browserInfo().name === "Firefox") {
+      mouth.style.transform = "translateY(60px)"
+    } else {
+      mouth.style.transform = "translateY(0px)"
+    }
+  }
+  
+  function mou() {
+    UpdateMouth("_")
+    setTimeout(() => {
+     UpdateMouth("⏝")
+    }, 1000)
+  }
+  mouth.addEventListener('click', mou)
+  
+  const lookup = [
+    //text: { resp1, resp2, greeting }
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: "⏝"},
+    {key: "Hi", resp1: "I'm good!", resp2: "Not so great...", greeting: "How are you?", mouth: "⏝"},
+    {key: "Bye", resp1: "Wait come back!!", resp2: "...", greeting: "...", mouth: "_"},
+    {key: "You're too ugly", resp1: "Wait come back!!", resp2: "...", greeting: "...", mouth: "_"},
+    {key: "You're too simple", resp1: "Wait come back!!", resp2: "...", greeting: "...", mouth: "_"},
+    {key: "Wait come back!!", resp1: "Hi", resp2: "Bye", greeting: "Hello", mouth: "⏝"},
+    {key: "...", resp1: "Yes", resp2: "No", greeting: "Do you want to try again?", mouth: "_"},
+    {key: "Yes", resp1: "Hi", resp2: "Bye", greeting: "Hello", mouth: "⏝", background: "teal"},
+    {key: "No", resp1: "Wait come back!!", resp2: "...", greeting: "...", mouth: "_"},
+    {key: "I'm not sorry", resp1: "Wait come back!!", resp2: "...", greeting: "...", mouth: "_"},
+    {key: "Not so great...", resp1: "I lost my sock...", resp2:"Don't wanna talk about it", greeting:"Something bothering you?", mouth: "_"},
+    {key: "I lost my sock...", resp1: "I've looked everywhere!", resp2:"Oh dear is right!", greeting:"Oh dear!", mouth: "_"},
+    {key: "I've looked everywhere!", resp1: "There it is!", resp2:"Not there...", greeting:"Did you check your foot?", mouth: "_"},
+    {key: "Ummm...", resp1: "There it is!", resp2:"Not there...", greeting:"Did you check your foot?", mouth: "_"},
+    {key: "Not there...", resp1: "There it is!", resp2:"Nope...", greeting:"Did you check the fridge?", mouth: "_"},
+    {key: "Nope...", resp1: "There it is!", resp2:"Nuh-uh...", greeting:"Did you check the fish bowl?", mouth: "_"},
+    {key: "Nuh-uh...", resp1: "There it is!", resp2:"Isn't there...", greeting:"Did you check your other foot?", mouth: "_"},
+    {key: "Isn't there...", resp1: "There it is!", resp2:"Don't see it...", greeting:"Did you check the sock drawer?", mouth: "_"},
+    {key: "Don't see it...", resp1: "There it is!", resp2:"Not there...", greeting:"Did you check your foot?", mouth: "_"},
+    {key: "There it is!", resp1: "Yippee!", resp2:"Oh wait no I didn't", greeting:"Always the last place you'd expect!", mouth: "⏝"},
+    {key: "Oh wait no I didn't", resp1: "Yeah...", resp2: "Just kidding!", greeting: "Oh...", mouth: "_"},
+    {key: "Yeah...", resp1: "There it is!", resp2:"Not there...", greeting:"Did you check your foot?", mouth: "_"},
+    {key: "I'm good!", resp1: "How are you?", resp2: "What can you do?", greeting: "That's good!", mouth: "⏝"},
+    {key: "How are you?", resp1: "Is that... good?", resp2: "Is that... bad?", greeting: "As good as a computer face can be", mouth: "⏝"},
+    {key: "Is that... good?", resp1: "What can you do?", resp2: "Is it... bad?", greeting: "It's something...", mouth: "_"},
+    {key: "Is that... bad?", resp1: "What can you do?", resp2: "I see...", greeting: "It's whatever you make it to be", mouth: "_"},
+    {key: "Is it... bad?", resp1: "What can you do?", resp2: "I see...", greeting: "It's whatever you make it to be", mouth: "_"},
+    {key: "What can you do?", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "I can do lots of things!", mouth: "⏝"},
+    {key: "Make me a sandwich!", resp1: "Please?", resp2: "Now!", greeting: "What's the magic word?", mouth: "_"},
+    {key: "Now!", resp1: "Please?", resp2: "Now!!!", greeting: "That's not right...", mouth: "_"},
+    {key: "Please?", resp1: "Yay!", greeting: "There ya go!", mouth: "⏝"},
+    {key: "...Please?", resp1: "Yay!", greeting: "There ya go!", mouth: "⏝"},
+    {key: "Yay!", resp1: "Oh?", greeting: "One small problem though...", mouth: "_"},
+    {key: "Oh?", resp1: "Darn!", resp2: "Then make some!", greeting: "I don't have hands!", mouth: "_"},
+    {key: "Darn!", resp1: "Tell me!", resp2: "Nevermind...", greeting: "I can tell you how to make one!", mouth: "⏝"},
+    {key: "No wait! Tell me!", resp1: "Bread!", resp2: "I'm not hungry anymore!", greeting: "Grab two slices of bread", mouth: "⏝"},
+    {key: "Tell me!", resp1: "Bread!", resp2: "I'm not hungry anymore!", greeting: "Grab two slices of bread", mouth: "⏝"},
+    {key: "Bread!", resp1: "Okay?", resp2: "I'm not hungry anymore!", greeting: "The bread is your canvas!", mouth: "⏝"},
+    {key: "Okay?", resp1: "Ham!", resp2: "I'm not hungry anymore!", greeting: "Take a piece of ham", mouth: "⏝"},
+    {key: "Ham!", resp1: "Cheese!", resp2: "I'm not hungry anymore!", greeting: "And some cheese too maybe?", mouth: "⏝"},
+    {key: "Cheese!", resp1: "Lettuce and tomatoes!", resp2: "I'm not hungry anymore!", greeting: "Get some lettuce and tomatoes in there!", mouth: "⏝"},
+    {key: "Lettuce and tomatoes!", resp1: "Sandwich!", resp2: "I'm not hungry anymore!", greeting: "Now mash it all in that 'wich!", mouth: "⏝"},
+    {key: "I'm not hungry anymore!", resp1: "I already ate...", resp2: "I hate sandwiches!", greeting: "What a waste of potential!", mouth: "_"},
+    {key: "Tell me a joke!", resp1: "???", greeting: "What did the baby computer call its father?", mouth: "⏝"},
+    {key: "???", resp1: "That's a good one!", resp2: "I don't get it...", greeting: "Data!", mouth: "⏝"},
+    {key: "That's a good one!", resp1: "Lay it on me!", resp2: "I'm good for now", greeting: "You want to hear another one?", mouth: "⏝"},
+    {key: "Lay it on me!", resp1: "????", greeting: "Where did the computer go to dance?", mouth: "⏝"},
+    {key: "????", resp1: "Comedy gold!", resp2: "I don't get it...", greeting: "The Disk-o!", mouth: "⏝"},
+    {key: "Comedy gold!", resp1: "I have a math test", resp2: "I'm getting a bit tired...", greeting: "What shall we do now?", mouth: "⏝"},
+    {key: "Oh I get it!", resp1: "Make me a sandwich!", resp2: "I have a math test", greeting: "I knew you would! What should we do now?", mouth: "⏝"},
+    {key: "Now!!!", resp1: "Dumb face.", resp2: "...Please?", greeting: "I guess I can't help you", mouth: "_"},
+    {key: "Maybe I will!", resp1: "Tell me a joke!", resp2: "I have a math test", greeting: "Cool! What should we do now?", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: ""},
+    {key: "Just kidding!", resp1: "Sure did!", greeting: "Oh so you did find it!", mouth: "⏝"},
+    {key: "Sure did!", resp1: "I have a math test", resp2: "Tell me a joke!", greeting: "Awesome! What should we do now?", mouth: "⏝"},
+    {key: "I'm sure...", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "Is there any way I can cheer you up?", mouth: "⏝"},
+    {key: "", resp1: "", resp2: "", greeting: "", mouth: ""},
+    {key: "I don't get it...", resp1 : "Oh I get it!", resp2: "Wasn't very funny...", greeting: "It's wordplay.", mouth: "_"},
+    {key: "Wasn't very funny...", resp1: "Bad comedian", resp2: "Sorry", greeting: "Woof... Tough crowd...", mouth: "_"},
+    {key: "Dumb face.", resp1: "You heard me", resp2: "Nothing", greeting: "What was that?", mouth: "_"},
+    {key: "Nothing", resp1: "I prefer purple!", resp2: "I prefer orange!", greeting: "What's wrong with my face?!", mouth: "_"},
+    {key: "I prefer purple!", resp1: "That's more like it!", resp2: "I hate purple!", greeting: "How's this?", mouth: "⏝", background: "purple"},
+    {key: "I prefer orange!", resp1: "That's more like it!", resp2: "I hate orange!", greeting: "How's this?", mouth: "⏝", background: "orange"},
+    {key: "That's more like it!", resp1: "Make me a sandwich!", resp2: "I have a math test", greeting: "Great! What do you want to do now?", mouth: "⏝"},
+    {key: "I hate purple!", resp1: "That's more like it!", resp2: "I hate blue even more!", greeting: "Oh? What about this?", mouth: "⏝", background: "blue"},
+    {key: "I hate orange!", resp1: "That's more like it!", resp2: "I hate red even more!", greeting: "Oh? What about this?", mouth: "⏝", background: "red"},
+    {key: "I hate blue even more!", resp1: "That's more like it!", resp2: "You look uglier than before!", greeting: "What about now?", mouth: "⏝", background: "green"},
+    {key: "I hate red even more!", resp1: "That's more like it!", resp2: "You look uglier than before!", greeting: "What about now?", mouth: "⏝", background: "teal"},
+    {key: "You look uglier than before!", resp1: "I'm the ugly police!", resp2: "I'm just saying!", greeting: "Yikes. What are you the color police?", mouth: "_"},
+    {key: "I'm the ugly police!", resp1: "I hope you get a virus!", resp2: "...I'm sorry...", greeting: "Haha you sure are!", mouth: "⏝"},
+    {key: "I hope you get a virus!", resp1: "I'm not sorry", resp2: "Sorry", greeting: "That wasn't very nice...", mouth: "_"},
+    {key: "I'm just saying!", resp1: "No", resp2: "Sorry", greeting: "Say sorry", mouth: "_"},
+    {key: "Bad comedian", resp1: "Dumb face.", resp2: "Sorry", greeting: "This conversation isn't going very well...", mouth: "_"},
+    {key: "Yippee!", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "What do you want to do now?", mouth: "⏝"},
+    {key: "Don't wanna talk about it", resp1: "I'm sure...", resp2: "Well...", greeting: "Are you sure?", mouth: "_"},
+    {key: "Well...", resp1: "I lost my sock...", resp2: "", greeting: "What's troubling you?", mouth: "⏝"},
+    {key: "Oh dear is right!", resp1: "This morning...", resp2: "Five years ago...", greeting: "Where did you see it last?", mouth: "_"},
+    {key: "This morning...", resp1: "On my feet?", resp2: "Ummm...", greeting: "This morning! Where do you usually put your socks?", mouth: "_"},
+    {key: "Five years ago...", resp1: "On my feet?", resp2: "Ummm...", greeting: "Five years! Where do you usually put your socks?", mouth: "_"},
+    {key: "On my feet?", resp1: "There it is!", resp2: "Not there...", greeting: "Try checking there!", mouth: "⏝"},
+    {key: "Then make some!", resp1: "You're useless then!", resp2: "Rats!", greeting: "Gross! No way!", mouth: "_"},
+    {key: "Rats!", resp1: "Tell me!", resp2: "That sounds like work...", greeting: "I can tell you how to make one though!", mouth: "_"},
+    {key: "That sounds like work...", resp1: "Maybe I will!", resp2: "No wait! Tell me!", greeting: "I guess you'll starve then.", mouth: "_"},
+    {key: "Nevermind...", resp1: "Maybe I will!", resp2: "No wait! Tell me!", greeting: "I guess you'll starve then.", mouth: "⏝"},
+    {key: "You're useless then!", resp1: "...", resp2: "Sorry", greeting: "...", mouth: "_"},
+    {key: "I see...", resp1: "If you say so!", resp2: "Okay...?", greeting: "It's nothing to worry about!", mouth: "⏝"},
+    {key: "Okay...?", resp1: "I believe you!", resp2: "Not really...", greeting: "...You don't believe me?", mouth: "_"},
+    {key: "If you say so!", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "What do you want to do?", mouth: "⏝"},
+    {key: "I beleive you!", resp1: "Great!", greeting: "Good!", mouth: "⏝"},
+    {key: "Not really...", resp1: "I don't trust computers!", resp2: "I don't know...", greeting: "Why not?", mouth: "_"},
+    {key: "You heard me", resp1: "No", resp2: "Sorry", greeting: "Say sorry", mouth: "_"},
+    {key: "Sorry", resp1: "...?", resp2: "I said sorry!", greeting: "Hmm...", mouth: "_"},
+    {key: "...I'm sorry...", resp1: "...?", resp2: "I said sorry!", greeting: "Hmm...", mouth: "_"},
+    {key: "...?", resp1: "Awesome!", resp2: "", greeting: "Apology accepted!", mouth: "⏝"},
+    {key: "I said sorry!", resp1: "Why not?!", resp2: "Aw really?", greeting: "Not sure if I can forgive you just yet", mouth: "⏝"},
+    {key: "Aw really?", resp1: "I didn't mean it!", resp2: "But I'm really sorry!", greeting: "Yeah! You hurt my feelings!", mouth: "⏝"},
+    {key: "Why not?!", resp1: "Oh come on!", resp2: "But I'm really sorry!", greeting: "Cause you really hurt my feelings!", mouth: "⏝"},
+    {key: "But I'm really sorry!", resp1: "I'll do anything!", resp2: "What?", greeting: "You know how you can make it up to me?", mouth: "⏝"},
+    {key: "I didn't mean it!", resp1: "Do I have to?", resp2: "Prove?", greeting: "Prove it!", mouth: "⏝"},
+    {key: "Prove?", resp1: "Let me think...", resp2: "Hard pass", greeting: "Say something nice about me!", mouth: "⏝"},
+    {key: "Prove how?", resp1: "Let me think...", resp2: "Hard pass", greeting: "Say something nice about me!", mouth: "⏝"},
+    {key: "Do I have to?", resp1: "Let me think...", resp2: "Prove how?", greeting: "Yes!", mouth: "⏝"},
+    {key: "I'll do anything!", resp1: "Let me think...", resp2: "Hard pass", greeting: "Say something nice about me!", mouth: "⏝"},
+    {key: "What?", resp1: "Let me think...", resp2: "Hard pass", greeting: "Say something nice about me!", mouth: "⏝"},
+    {key: "Let me think...", resp1: "Your eyes are very round", resp2: "You have a beautiful smile", greeting: "I'm waiting!", mouth: "⏝"},
+    {key: "Hard pass", resp1: "You're too ugly", resp2: "You're too simple", greeting: "What do you mean?", mouth: "_"},
+    {key: "You have a beautiful smile", resp1: "Yeah", resp2: "Nah", greeting: "You mean it?", mouth: "⏝"},
+    {key: "Your eyes are very round", resp1: "Yes!", greeting: "I'll take it!", mouth: "⏝"},
+    {key: "Yes!", resp1: "I have a math test", resp2: "I'm getting a bit tired...", greeting: "What shall we do now?", mouth: "⏝"},
+    {key: "Awesome!", resp1: "I have a math test", resp2: "I'm getting a bit tired...", greeting: "What shall we do now?", mouth: "⏝"},
+    {key: "I'm good for now", resp1: "Make me a sandwich!", resp2: "I have a math test", greeting: "Had enough, huh? What should we do now?"},
+    {key: "I'm getting a bit tired...", resp1: "Bye bye!", resp2: "Wait!", greeting: "Until next time then?", mouth: "⏝"},
+    {key: "Bye bye!", resp1: "Hello?", mouth: "⏝"},
+    {key: "Wait!", resp1: "I love you", resp2: "Will we meet again?", greeting: "What is it??", mouth: "_"},
+    {key: "I love you", resp1: "Bye Bye!", resp2: "", greeting: "That's new! I love you too!", mouth: "⏝"},
+    {key: "Will we meet again?", resp1: "That's comforting", resp2: "That's nice to know", greeting: "Just click the button and I'll be right here!", mouth: "⏝"},
+    {key: "That's comforting", resp1: "Hello?", mouth: "⏝"},
+    {key: "That's nice to know", resp1: "Hello?", mouth: "⏝"},
+    {key: "Hello?", resp1: "Hi", resp2: "Bye", greeting: "Hello again!", mouth: "⏝"},
+    {key: "I have a math test", resp1: "That'd be great!", greeting: "I love math! I can help you study!", mouth: "⏝"},
+    {key: "That'd be great!", resp1: "6", resp2: "8", greeting: "Okay! What's 2 + 4?", mouth: "⏝"},
+    {key: "6", resp1: "50", resp2: "15", greeting: "Great! What's 5 + 10?", mouth: "⏝"},
+    {key: "15", resp1: "24", resp2: "144", greeting: "Nice! How about 12 x 12?", mouth: "⏝"},
+    {key: "144", resp1: "219", resp2: "459", greeting: "Hey you're really good at this! What's 15 + 12 (10 + 7)?", mouth: "⏝"},
+    {key: "219", resp1: "Thanks!", resp2: "You think so?", greeting: "You are one smart cookie, lemme tell ya!", mouth: "⏝"},
+    {key: "You think so?", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "I know so! What should we do now?", mouth: "⏝"},
+    {key: "Thanks!", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "What should we do now?", mouth: "⏝"},
+    {key: "8", resp1: "...9", resp2: "6", greeting: "Mmm not quite. Try again", mouth: "_"},
+    {key: "50", resp1: "15", resp2: "...51", greeting: "Mmm not quite. Try again", mouth: "_"},
+    {key: "24", resp1: "144", resp2: "...25", greeting: "Mmm not quite. Try again", mouth: "_"},
+    {key: "459", resp1: "...460", resp2: "219", greeting: "Mmm not quite. Try again", mouth: "_"},
+    {key: "...9", resp1: "I do!", resp2: "Math is stupid anyway!", greeting: "H-hey who needs math anyway, right?", mouth: "⏝"},
+    {key: "...51", resp1: "I do!", resp2: "Math is stupid anyway!", greeting: "H-hey who needs math anyway, right?", mouth: "⏝"},
+    {key: "...25", resp1: "I do!", resp2: "Math is stupid anyway!", greeting: "H-hey who needs math anyway, right?", mouth: "⏝"},
+    {key: "...460", resp1: "I do!", resp2: "Math is stupid anyway!", greeting: "H-hey who needs math anyway, right?", mouth: "⏝"},
+    {key: "I do!", resp1: "I suppose...", resp2: "I want to try again!", greeting: "That's what calculators are for!", mouth: "⏝"},
+    {key: "Math is stupid anyway!", resp1: "I suppose...", resp2: "I want to try again!", greeting: "That's what calculators are for!", mouth: "⏝"},
+    {key: "I want to try again!", resp1: "6", resp2: "8", greeting: "Okay! What's 2 + 4?", mouth: "⏝"},
+    {key: "I suppose...", resp1: "Tell me a joke!", resp2: "Make me a sandwich!", greeting: "What do you want to do now?", mouth: "⏝"},
+    ]
+
+  const update = (text) =>
+  {
+    const current = lookup.find((el) => el.key === text)
+    if (current != null)
+    {
+      button1.textContent = current.resp1
+      button2.textContent = current.resp2
+      greeting.textContent = current.greeting
+      UpdateMouth(current.mouth)
+      
+      if (current.background != null)
+      {
+        body.style.background = current.background
+        lefteye.style.color = current.background
+        righteye.style.color = current.background
+        mouth.style.color = current.background
+        button1.style.color = current.background
+        button2.style.color = current.background
+      }
+    }
+  }
+  button1.addEventListener('click', () => update(button1.textContent))
+	button2.addEventListener('click', () => update(button2.textContent))
+  
+  window.addEventListener('load',() => UpdateMouth("⏝"))
+</script>
